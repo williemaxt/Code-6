@@ -2,18 +2,48 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Simple Editor</title>
+    <link rel="stylesheet" href="./node_modules/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="main.css">
+    <!-- Adding Vue -->
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <!-- Adding Codemirror (highliting) -->
+    <script src="./node_modules/codemirror/lib/codemirror.js"></script>
+    <script src='./node_modules/codemirror/mode/javascript/javascript.js'></script>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-
+    <div id='app'>
+      <!-- {{name}} -->
+      <textarea id='codeBody' name="mainText" rows="8" cols="80" v-on:keyup.enter="changeCode"></textarea>
+    </div>
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
+
+    </script>
+    <script>
+      new Vue({
+        el: '#app',
+        data(){
+          return{
+            name: 'william'
+          }
+        },
+        mounted(){
+          this.changeCode()
+        },
+        methods:{
+          changeCode(){
+            var editor = CodeMirror.fromTextArea(document.getElementById('codeBody'), {
+              lineNumbers: true,
+              mode: "javascript",
+              lineWrapping: true,
+              spellcheck: true,
+              scrollbarStyle: null
+            });
+          }
+        }
+      })
     </script>
   </body>
 </html>
